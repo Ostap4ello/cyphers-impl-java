@@ -83,6 +83,10 @@ public class Math {
     }
 
     // 2.12
+    // INFO: The Bellaso cipher uses a string key to generate a permutation of integers,
+    // by assigning numbers for characters in alphabetical order, and if there are multiple
+    // same characters, they get assigned numbers in the order of their appearance in the string.
+    // Example: "bacca" -> [2, 0, 3, 4, 1]
     public static int[] generatePermutationBellaso(String stringKey) {
         if (stringKey == null) {
             return null;

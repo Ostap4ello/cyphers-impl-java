@@ -32,11 +32,11 @@ public class Utils implements TelegraphAlphabet {
 
     // 1.7 (util)
     public static String convertToTSA(String s, boolean allowSpaces) {
-        s.toLowerCase();
+        s = s.toLowerCase();
         if (allowSpaces)
-            s.replaceAll("[^a-z] ", "");
+            s = s.replaceAll("[^a-z ]", "");
         else
-            s.replaceAll("[^a-z]", "");
+            s = s.replaceAll("[^a-z]", "");
         return s;
     }
 
@@ -132,35 +132,30 @@ public class Utils implements TelegraphAlphabet {
     }
 
     // 1.14
-    private static void pushAlphabetToStack(Stack<Character> stack) {
+    public static Set<String> getAllPossibleStringsTSA(int n) {
+        Set<Character> letters = new LinkedHashSet<>();
         for (int i = 0; i < AlphabetLength; i++) {
-            stack.push(itocTSA(i));
+            letters.add(itocTSA(i));
         }
+        return getAllPossibleStrings(n, letters);
     }
 
-    public static Set<String> getAllPossibleStrings(int n) {
-        Stack<Character> stack = new Stack<>();
-        Set<String> resultSet = new LinkedHashSet<>();
-        StringBuilder sb = new StringBuilder("");
-
-        pushAlphabetToStack(stack);
-        while (!stack.isEmpty()) {
-            char c = stack.pop();
-            sb.append(c);
-            if (sb.length() == n) {
-                resultSet.add(sb.toString());
-                sb.deleteCharAt(sb.length() - 1);
-            } else {
-                pushAlphabetToStack(stack);
+    private static void addStringsRecursive(final int wordLength, Set<Character> letters, StringBuilder current,
+            Set<String> result) {
+        if (current.length() < wordLength) {
+            for (Character c : letters) {
+                current.append(c);
+                addStringsRecursive(wordLength, letters, current, result);
+                current.deleteCharAt(current.length() - 1);
             }
+        } else {
+            result.add(current.toString());
         }
-        return resultSet;
     }
 
-    public static void printAllPossibleStrings(int n) {
-        Set<String> resultSet = getAllPossibleStrings(n);
-        for (String s : resultSet) {
-            System.out.println(s);
-        }
+    public static Set<String> getAllPossibleStrings(final int wordLength, Set<Character> letters) {
+        Set<String> result = new LinkedHashSet<>();
+        addStringsRecursive(wordLength, letters, new StringBuilder(""), result);
+        return result;
     }
 }
