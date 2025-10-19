@@ -2,10 +2,8 @@
 package cyphers.substitutional;
 
 import cyphers.AbstractEncoderDecoder;
-import interfaces.TelegraphAlphabet;
 import utils.Utils;
 import exceptions.EncoderDecoderConversionError;
-import exceptions.NotImplementedError;
 
 public class Vinegere extends AbstractEncoderDecoder {
 

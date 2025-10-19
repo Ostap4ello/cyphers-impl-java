@@ -87,13 +87,13 @@ public class Math {
     // by assigning numbers for characters in alphabetical order, and if there are multiple
     // same characters, they get assigned numbers in the order of their appearance in the string.
     // Example: "bacca" -> [2, 0, 3, 4, 1]
-    public static int[] generatePermutationBellaso(String stringKey) {
+    public static int[] generatePermutationBellaso(String stringKey) throws IllegalArgumentException {
         if (stringKey == null) {
-            return null;
+            throw new IllegalArgumentException("Key is null");
         }
         int length = stringKey.length();
-        if (length == 0) {
-            return null;
+        if (length == 0 || stringKey.matches("^[a-z]*$") == false) {
+            throw new IllegalArgumentException("Key is empty");
         }
 
         Set<Character> keyLetterSet = new HashSet<>();
