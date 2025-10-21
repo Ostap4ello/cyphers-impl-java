@@ -1,0 +1,44 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Implementation
+
+    // Test
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+buildDir = '.build'
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test']
+        }
+    }
+}
+
+application {
+    mainClass = 'Main'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
