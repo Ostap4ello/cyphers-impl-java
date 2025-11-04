@@ -30,6 +30,14 @@ public class Utils implements TelegraphAlphabet {
 
     }
 
+    public static int[] strToIntArrayTSA(String s) {
+        int[] arr = new int[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            arr[i] = ctoiTSA(s.charAt(i));
+        }
+        return arr;
+    }
+
     // 1.7 (util)
     public static String convertToTSA(String s, boolean allowSpaces) {
         s = s.toLowerCase();
