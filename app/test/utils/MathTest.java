@@ -4,8 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MathTest {
@@ -70,5 +72,44 @@ public class MathTest {
             assertEquals(expected, Arrays.toString(result).replaceAll("[\\[\\], ]", ""),
                     "Bellaso permutation for key: " + key);
         }
+    }
+
+    @Test
+    void keyBenjaminFranklin() { // TODO: more tests
+        String key = "abcdefghijklmnopqrstuvwxyz";
+        assertEquals(Math.generateHomophonicKeyBenjaminFranklin(""),
+                Math.generateHomophonicKeyBenjaminFranklin(key),
+                "Testing auto-filling feature");
+        assertTrue(
+                Math.isHomophonicKeyValid(
+                        Math.generateHomophonicKeyBenjaminFranklin(key)),
+                "Generated Benjamin Franklin key should be valid");
+
+    }
+
+    @Test
+    void isHomophonicKeyValid() {
+        Map<Character, List<Integer>> key = new HashMap<>();
+
+        assertFalse(Math.isHomophonicKeyValid(key), "Empty key should be invalid");
+
+        for (char c = 'a'; c <= 'z'; c++) {
+            key.put(c, new ArrayList<>());
+        }
+
+        assertFalse(Math.isHomophonicKeyValid(key), "Key with no mappings should be invalid");
+
+        int index = 0;
+        for (char c = 'a'; c <= 'x'; c++) {
+            key.get(c).add(index++);
+        }
+
+        assertFalse(Math.isHomophonicKeyValid(key), "Key missing some letters should be invalid");
+
+        key.get('y').add(index++);
+        key.get('z').add(index++);
+
+        assertTrue(Math.isHomophonicKeyValid(key), "Complete key should be valid");
+
     }
 }

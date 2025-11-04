@@ -1,10 +1,16 @@
 package utils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-public class Math {
+import interfaces.TelegraphAlphabet;
+
+public class Math implements TelegraphAlphabet {
     // 1.1
     public static boolean isPrime(int n) {
         if (n <= 1 || (n % 2 == 0 && n > 2)) {
@@ -83,9 +89,12 @@ public class Math {
     }
 
     // 2.12
-    // INFO: The Bellaso cipher uses a string key to generate a permutation of integers,
-    // by assigning numbers for characters in alphabetical order, and if there are multiple
-    // same characters, they get assigned numbers in the order of their appearance in the string.
+    // INFO: The Bellaso cipher uses a string key to generate a permutation of
+    // integers,
+    // by assigning numbers for characters in alphabetical order, and if there are
+    // multiple
+    // same characters, they get assigned numbers in the order of their appearance
+    // in the string.
     // Example: "bacca" -> [2, 0, 3, 4, 1]
     public static int[] generatePermutationBellaso(String stringKey) throws IllegalArgumentException {
         if (stringKey == null) {
@@ -119,4 +128,52 @@ public class Math {
 
         return keyIntArray;
     }
+
+    // 2.8
+    // INFO: Benjamin Franklin key generation
+    // Generates a homophonic key with multiple values for each letter to balance
+    // frequency
+    // distribution. Good for long keys and large texts. (Generates pretty heavy
+    // keys though)
+    public static Map<Character, List<Integer>> generateHomophonicKeyBenjaminFranklin(String stringKey) {
+        Map<Character, List<Integer>> key = new HashMap<>();
+        Integer letterIndex = 0;
+
+        for (char c : stringKey.toCharArray()) {
+            key.putIfAbsent(c, new ArrayList<>());
+            key.get(c).add(letterIndex);
+            letterIndex++;
+        }
+
+        for (int i = 0; i < AlphabetLength; i++) {
+            char c = Utils.itocTSA(i);
+            if (!key.containsKey(c)) {
+                key.put(c, new ArrayList<>());
+                key.get(c).add(letterIndex);
+                letterIndex++;
+            }
+        }
+
+        return key;
+    }
+
+    public static boolean isHomophonicKeyValid(Map<Character, List<Integer>> key) {
+        Set<Integer> allValues = new HashSet<Integer>();
+        if (key.values().size() != AlphabetLength) {
+            return false;
+        }
+        for (List<Integer> values : key.values()) {
+            if (values == null) {
+                return false;
+            }
+            if (values.isEmpty()) {
+                return false;
+            }
+            if (!allValues.addAll(values)) {
+                return false; // duplicate found
+            }
+        }
+        return true;
+    }
+
 }

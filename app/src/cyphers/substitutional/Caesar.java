@@ -14,7 +14,7 @@ public class Caesar extends AbstractEncoderDecoder {
         }
         offset = (Integer) args[0];
 
-        return Vinegere.encode(plainText, offset, 0);
+        return Trithemius.encode(plainText, offset, 0);
     }
 
     public static String decode(String cypherText, Object... args) throws EncoderDecoderConversionError {
@@ -25,6 +25,6 @@ public class Caesar extends AbstractEncoderDecoder {
         }
         offset = (Integer) args[0];
 
-        return Vinegere.decode(cypherText, offset, 0);
+        return Trithemius.decode(cypherText, offset, 0);
     }
 }
