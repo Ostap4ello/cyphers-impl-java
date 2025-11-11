@@ -2,13 +2,13 @@ package cyphers.transpositional;
 
 import java.lang.reflect.Array;
 
-import exceptions.EncoderDecoderConversionError;
+import exceptions.EncryptionAlgorithmConversionError;
 import utils.Math;
 
 public class StringTranspositionByPermutation {
 
     private static String applyTransformation(String text, int[] keys, boolean allowExtension)
-            throws EncoderDecoderConversionError {
+            throws EncryptionAlgorithmConversionError {
         int keyLength = Array.getLength(keys);
         int textLength = text.length();
         StringBuilder modifiedTextBuilder = new StringBuilder("");
@@ -18,7 +18,7 @@ public class StringTranspositionByPermutation {
                 int index = baseIndex + letterIndex;
                 if (index >= textLength) {
                     if (!allowExtension) {
-                        throw new EncoderDecoderConversionError("Text length is not a multiple of key length");
+                        throw new EncryptionAlgorithmConversionError("Text length is not a multiple of key length");
                     }
                     modifiedTextBuilder.append("x");
                 } else {
@@ -29,13 +29,13 @@ public class StringTranspositionByPermutation {
         return modifiedTextBuilder.toString();
     }
 
-    public static String encode(String plainText, Object... args) throws EncoderDecoderConversionError {
+    public static String encrypt(String plainText, Object... args) throws EncryptionAlgorithmConversionError {
         int[] keys;
         if (plainText == null || plainText.length() == 0) {
-            throw new EncoderDecoderConversionError("Plain text is null or empty");
+            throw new EncryptionAlgorithmConversionError("Plain text is null or empty");
         }
         if (args.length < 1) {
-            throw new EncoderDecoderConversionError("Insufficient arguments");
+            throw new EncryptionAlgorithmConversionError("Insufficient arguments");
         }
         if (args[0] instanceof int[]) {
             keys = (int[]) args[0];
@@ -48,13 +48,13 @@ public class StringTranspositionByPermutation {
         return applyTransformation(plainText, keys, true);
     }
 
-    public static String decode(String cypherText, Object... args) throws EncoderDecoderConversionError {
+    public static String decrypt(String cypherText, Object... args) throws EncryptionAlgorithmConversionError {
         int[] keys;
         if (cypherText == null || cypherText.length() == 0) {
-            throw new EncoderDecoderConversionError("Cypher text is null or empty");
+            throw new EncryptionAlgorithmConversionError("Cypher text is null or empty");
         }
         if (args.length < 1) {
-            throw new EncoderDecoderConversionError("Insufficient arguments");
+            throw new EncryptionAlgorithmConversionError("Insufficient arguments");
         }
         if (args[0] instanceof int[]) {
             keys = (int[]) args[0];

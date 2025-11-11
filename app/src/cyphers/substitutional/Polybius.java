@@ -1,6 +1,6 @@
 package cyphers.substitutional;
 
-import exceptions.EncoderDecoderConversionError;
+import exceptions.EncryptionAlgorithmConversionError;
 import interfaces.TelegraphAlphabet;
 import utils.Utils;
 
@@ -8,19 +8,19 @@ public abstract class Polybius implements TelegraphAlphabet {
     private final static int KeyLength = 25;
     private final static int RowLength = 5;
 
-    public static String encode(String plainText, Object... args) throws EncoderDecoderConversionError {
+    public static String encrypt(String plainText, Object... args) throws EncryptionAlgorithmConversionError {
         if (args.length != 0) {
-            throw new EncoderDecoderConversionError("Arguments are of wrong type or insufficient");
+            throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or insufficient");
         }
         // String key;
         // if (args.length < 1 ||
         // !(args[0] instanceof String)) {
-        // throw new EncoderDecoderConversionError("Arguments are of wrong type or
+        // throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or
         // insufficient");
         // }
         // key = (String) args[0];
         // if (key.length() != AlphabetLength) {
-        // throw new EncoderDecoderConversionError("Invalid key");
+        // throw new EncryptionAlgorithmConversionError("Invalid key");
         // }
         // // TODO: key verification
 
@@ -37,24 +37,24 @@ public abstract class Polybius implements TelegraphAlphabet {
         return output.toString();
     }
 
-    public static String decode(String cypherText, Object... args) throws EncoderDecoderConversionError {
+    public static String decrypt(String cypherText, Object... args) throws EncryptionAlgorithmConversionError {
         if (args.length != 0) {
-            throw new EncoderDecoderConversionError("Arguments are of wrong type or insufficient");
+            throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or insufficient");
         }
         // String key;
         // if (args.length < 1 ||
         // !(args[0] instanceof String)) {
-        // throw new EncoderDecoderConversionError("Arguments are of wrong type or
+        // throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or
         // insufficient");
         // }
         // key = (String) args[0];
         // if (key.length() != KeyLength) {
-        // throw new EncoderDecoderConversionError("Invalid key");
+        // throw new EncryptionAlgorithmConversionError("Invalid key");
         // }
         // // TODO: key verification
 
         if (cypherText.length() % 2 != 0) {
-            throw new EncoderDecoderConversionError("Invalid text");
+            throw new EncryptionAlgorithmConversionError("Invalid text");
         }
 
         StringBuilder output = new StringBuilder("");

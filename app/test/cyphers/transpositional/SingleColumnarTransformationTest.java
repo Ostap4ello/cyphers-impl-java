@@ -7,62 +7,62 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SingleColumnarTransformationTest {
 
     @Test
-    void encodeDecodeBehavior0() {
+    void encryptDecyphereBehavior0() {
         int[] keys = new int[] { 2, 0, 1 };
-        String enc = SingleColumnarTransformation.encode("abcdefg", keys);
+        String enc = SingleColumnarTransformation.encrypt("abcdefg", keys);
         // For keys [2,0,1] and text "abcdefg" => read b,e | c,f | a,d,g -> "becfadg"
-        assertEquals("becfadg", enc, "encode failed");
+        assertEquals("becfadg", enc, "encrypt failed");
 
-        String dec = SingleColumnarTransformation.decode(enc, keys);
-        assertEquals("abcdefg", dec, "decode failed");
+        String dec = SingleColumnarTransformation.decrypt(enc, keys);
+        assertEquals("abcdefg", dec, "decrypt failed");
 
     }
 
     @Test
-    void encodeDecodeBehavior1() {
+    void encryptDecyphereBehavior1() {
         int[] keys = new int[] { 2, 0, 1 };
-        String enc = SingleColumnarTransformation.encode("abcdefgh", keys);
+        String enc = SingleColumnarTransformation.encrypt("abcdefgh", keys);
         // For keys [2,0,1] and text "abcdefg" => read b,e,h | c,f | a,d,g -> "behcfadg"
-        assertEquals("behcfadg", enc, "encode failed");
+        assertEquals("behcfadg", enc, "encrypt failed");
 
-        String dec = SingleColumnarTransformation.decode(enc, keys);
-        assertEquals("abcdefgh", dec, "decode failed");
+        String dec = SingleColumnarTransformation.decrypt(enc, keys);
+        assertEquals("abcdefgh", dec, "decrypt failed");
     }
 
     @Test
-    void encodeDecodeBehavior2() {
+    void encryptDecyphereBehavior2() {
         int[] keys = new int[] { 2, 0, 1 };
-        String enc = SingleColumnarTransformation.encode("abcdef", keys);
+        String enc = SingleColumnarTransformation.encrypt("abcdef", keys);
         // For keys [2,0,1] and text "abcdefg" => read b,e | c,f | a,d -> "becfad"
-        assertEquals("becfad", enc, "encode failed");
+        assertEquals("becfad", enc, "encrypt failed");
 
-        String dec = SingleColumnarTransformation.decode(enc, keys);
-        assertEquals("abcdef", dec, "decode failed");
+        String dec = SingleColumnarTransformation.decrypt(enc, keys);
+        assertEquals("abcdef", dec, "decrypt failed");
     }
 
     @Test
-    void argumentValidationEncode() {
+    void argumentValidationEncypher() {
         int[] keys = new int[] { 2, 0, 1 };
-        assertThrows(Exception.class, () -> SingleColumnarTransformation.encode(null, keys),
-                "encode null input should return null");
-        assertThrows(Exception.class, () -> SingleColumnarTransformation.encode("", keys),
-                "encode empty input should return null");
-        assertThrows(Exception.class, () -> SingleColumnarTransformation.encode("abc"),
-                "encode missing args should return null");
-        assertThrows(Exception.class, () -> SingleColumnarTransformation.encode("abc", "bad-key-type"),
-                "encode wrong arg type should return null");
+        assertThrows(Exception.class, () -> SingleColumnarTransformation.encrypt(null, keys),
+                "encrypt null input should return null");
+        assertThrows(Exception.class, () -> SingleColumnarTransformation.encrypt("", keys),
+                "encrypt empty input should return null");
+        assertThrows(Exception.class, () -> SingleColumnarTransformation.encrypt("abc"),
+                "encrypt missing args should return null");
+        assertThrows(Exception.class, () -> SingleColumnarTransformation.encrypt("abc", "bad-key-type"),
+                "encrypt wrong arg type should return null");
     }
 
     @Test
-    void argumentValidationDecode() {
+    void argumentValidationDecyphere() {
         int[] keys = new int[] { 2, 0, 1 };
-        assertThrows(Exception.class, () -> SingleColumnarTransformation.decode(null, keys),
-                "decode null input should return null");
-        assertThrows(Exception.class, () -> SingleColumnarTransformation.decode("", keys),
-                "decode empty input should return null");
-        assertThrows(Exception.class, () -> SingleColumnarTransformation.decode("abc"),
-                "decode missing args should return null");
-        assertThrows(Exception.class, () -> SingleColumnarTransformation.decode("abc", "bad-key-type"),
-                "decode wrong arg type should return null");
+        assertThrows(Exception.class, () -> SingleColumnarTransformation.decrypt(null, keys),
+                "decrypt null input should return null");
+        assertThrows(Exception.class, () -> SingleColumnarTransformation.decrypt("", keys),
+                "decrypt empty input should return null");
+        assertThrows(Exception.class, () -> SingleColumnarTransformation.decrypt("abc"),
+                "decrypt missing args should return null");
+        assertThrows(Exception.class, () -> SingleColumnarTransformation.decrypt("abc", "bad-key-type"),
+                "decrypt wrong arg type should return null");
     }
 }

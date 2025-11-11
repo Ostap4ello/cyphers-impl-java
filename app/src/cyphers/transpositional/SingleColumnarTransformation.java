@@ -3,26 +3,26 @@ package cyphers.transpositional;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import exceptions.EncoderDecoderConversionError;
+import exceptions.EncryptionAlgorithmConversionError;
 import utils.Math;
 
 // Write into table by rows, read by columns in given order
 public class SingleColumnarTransformation {
 
-    public static String encode(String plainText, Object... args) throws EncoderDecoderConversionError {
+    public static String encrypt(String plainText, Object... args) throws EncryptionAlgorithmConversionError {
         int[] keys;
         if (plainText == null || plainText.length() == 0) {
-            throw new EncoderDecoderConversionError("Plain text is null or empty");
+            throw new EncryptionAlgorithmConversionError("Plain text is null or empty");
         }
         if (args.length < 1) {
-            throw new EncoderDecoderConversionError("Insufficient arguments");
+            throw new EncryptionAlgorithmConversionError("Insufficient arguments");
         }
         if (args[0] instanceof int[]) {
             keys = (int[]) args[0];
         } else if (args[0] instanceof String) {
             keys = Math.generatePermutationBellaso((String) args[0]);
         } else {
-            throw new EncoderDecoderConversionError("Argument is of wrong type");
+            throw new EncryptionAlgorithmConversionError("Argument is of wrong type");
         }
 
         keys = Math.generateInversePermutation(keys); // get order of reading columns
@@ -67,20 +67,20 @@ public class SingleColumnarTransformation {
         return modifiedTextBuilder.toString();
     }
 
-    public static String decode(String cypherText, Object... args) throws EncoderDecoderConversionError {
+    public static String decrypt(String cypherText, Object... args) throws EncryptionAlgorithmConversionError {
         int[] keys;
         if (cypherText == null || cypherText.length() == 0) {
-            throw new EncoderDecoderConversionError("Cypher text is null or empty");
+            throw new EncryptionAlgorithmConversionError("Cypher text is null or empty");
         }
         if (args.length < 1) {
-            throw new EncoderDecoderConversionError("Insufficient arguments");
+            throw new EncryptionAlgorithmConversionError("Insufficient arguments");
         }
         if (args[0] instanceof int[]) {
             keys = (int[]) args[0];
         } else if (args[0] instanceof String) {
             keys = Math.generatePermutationBellaso((String) args[0]);
         } else {
-            throw new EncoderDecoderConversionError("Argument is of wrong type");
+            throw new EncryptionAlgorithmConversionError("Argument is of wrong type");
         }
 
         cypherText = cypherTextAddMissingLetters(cypherText, keys);
@@ -88,14 +88,14 @@ public class SingleColumnarTransformation {
         int keyLength = Array.getLength(keys);
         int columnCount = cypherText.length() / keyLength;
 
-        StringBuilder decodedTextBuilder = new StringBuilder("");
+        StringBuilder decryptdTextBuilder = new StringBuilder("");
         for (int letterIndex = 0; letterIndex < columnCount; letterIndex++) {
             for (int baseIndex : keys) {
                 int index = letterIndex + keyLength * baseIndex;
                 if (cypherText.charAt(index) != '.') // skip filler characters TODO: refactor
-                    decodedTextBuilder.append(cypherText.charAt(index));
+                    decryptdTextBuilder.append(cypherText.charAt(index));
             }
         }
-        return decodedTextBuilder.toString();
+        return decryptdTextBuilder.toString();
     }
 }

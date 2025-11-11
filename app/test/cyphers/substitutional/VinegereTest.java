@@ -15,43 +15,43 @@ public class VinegereTest {
     }
 
     @Test
-    void basicEncodeDecode() {
+    void basicEncypherDecyphere() {
         int[] key;
 
         key = generateKeyFromString("abc");
 
-        assertEquals("ace", Vinegere.encode("abc", key), "encode basic failed");
-        assertEquals("abc", Vinegere.decode("ace", key), "decode basic failed");
+        assertEquals("ace", Vinegere.encrypt("abc", key), "encrypt basic failed");
+        assertEquals("abc", Vinegere.decrypt("ace", key), "decrypt basic failed");
 
         key = generateKeyFromString("zyx");
 
-        assertEquals("zzzc", Vinegere.encode("abcd", key), "encode basic failed");
-        assertEquals("abcd", Vinegere.decode("zzzc", key), "decode basic failed");
+        assertEquals("zzzc", Vinegere.encrypt("abcd", key), "encrypt basic failed");
+        assertEquals("abcd", Vinegere.decrypt("zzzc", key), "decrypt basic failed");
     }
 
     @Test
     void invalidInputs() {
         int[] validKey = new int[] {1, 2, 3};
         assertThrows(Exception.class,
-                () -> Vinegere.encode(null, validKey),
-                "encode should throw exception on null input");
+                () -> Vinegere.encrypt(null, validKey),
+                "encrypt should throw exception on null input");
         assertThrows(Exception.class,
-                () -> Vinegere.decode(null, validKey),
-                "decode should throw exception on null input");
+                () -> Vinegere.decrypt(null, validKey),
+                "decrypt should throw exception on null input");
 
         assertThrows(Exception.class,
-                () -> Vinegere.encode("abc!", validKey),
-                "encode should throw exception on invalid characters");
+                () -> Vinegere.encrypt("abc!", validKey),
+                "encrypt should throw exception on invalid characters");
         assertThrows(Exception.class,
-                () -> Vinegere.decode("abc!", validKey),
-                "decode should throw exception on invalid characters");
+                () -> Vinegere.decrypt("abc!", validKey),
+                "decrypt should throw exception on invalid characters");
 
-        assertThrows(Exception.class, () -> Vinegere.encode("abc"), "encode should return null on insufficient args");
-        assertThrows(Exception.class, () -> Vinegere.decode("abc"), "decode should return null on insufficient args");
+        assertThrows(Exception.class, () -> Vinegere.encrypt("abc"), "encrypt should return null on insufficient args");
+        assertThrows(Exception.class, () -> Vinegere.decrypt("abc"), "decrypt should return null on insufficient args");
 
-        assertThrows(Exception.class, () -> Vinegere.encode("abc", "offset"),
-                "encode should return null on wrong arg types");
-        assertThrows(Exception.class, () -> Vinegere.decode("abc", "step"),
-                "decode should return null on wrong arg types");
+        assertThrows(Exception.class, () -> Vinegere.encrypt("abc", "offset"),
+                "encrypt should return null on wrong arg types");
+        assertThrows(Exception.class, () -> Vinegere.decrypt("abc", "step"),
+                "decrypt should return null on wrong arg types");
     }
 }

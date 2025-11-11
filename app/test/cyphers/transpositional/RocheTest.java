@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RocheTest {
 
     @Test
-    void encodeDecodeBehavior0() {
+    void encryptDecyphereBehavior0() {
         /*
          * 2 0 1
          *
@@ -16,14 +16,14 @@ public class RocheTest {
          * f
          */
         int[] keys = new int[] { 2, 0, 1 };
-        String enc = Roche.encode("abcdef", keys);
-        assertEquals("bceadf", enc, "encode failed");
+        String enc = Roche.encrypt("abcdef", keys);
+        assertEquals("bceadf", enc, "encrypt failed");
 
-        String dec = Roche.decode(enc, keys);
-        assertEquals("abcdef", dec, "decode failed");
+        String dec = Roche.decrypt(enc, keys);
+        assertEquals("abcdef", dec, "decrypt failed");
     }
 
-    void encodeDecodeBehavior1() {
+    void encryptDecyphereBehavior1() {
         /*
          * 2 1 0 3
          *
@@ -33,14 +33,14 @@ public class RocheTest {
          *       j
          */
         int[] keys = new int[] { 2, 1, 0, 3 };
-        String enc = Roche.encode("abcdefghij", keys);
-        assertEquals("cbfaehdgij", enc, "encode failed");
+        String enc = Roche.encrypt("abcdefghij", keys);
+        assertEquals("cbfaehdgij", enc, "encrypt failed");
 
-        String dec = Roche.decode(enc, keys);
-        assertEquals("abcdefghij", dec, "decode failed");
+        String dec = Roche.decrypt(enc, keys);
+        assertEquals("abcdefghij", dec, "decrypt failed");
     }
 
-    void encodeDecodeBehavior2() {
+    void encryptDecyphereBehavior2() {
         /*
          * 2 1 0 3
          *
@@ -50,68 +50,68 @@ public class RocheTest {
          *
          */
         int[] keys = new int[] { 2, 1, 0, 3 };
-        String enc = Roche.encode("abcdefg", keys);
-        assertEquals("cbfaedg", enc, "encode failed");
+        String enc = Roche.encrypt("abcdefg", keys);
+        assertEquals("cbfaedg", enc, "encrypt failed");
 
-        String dec = Roche.decode(enc, keys);
-        assertEquals("abcdefg", dec, "decode failed");
+        String dec = Roche.decrypt(enc, keys);
+        assertEquals("abcdefg", dec, "decrypt failed");
 
     }
 
     // @Test
-    // void encodeDecodeBehavior1() {
+    // void encryptDecyphereBehavior1() {
     // int[] keys = new int[] { 2, 0, 1 };
-    // String enc = SingleColumnarTransformation.encode("abcdefgh", keys);
+    // String enc = SingleColumnarTransformation.encrypt("abcdefgh", keys);
     // // For keys [2,0,1] and text "abcdefg" => read b,e,h | c,f | a,d,g ->
     // "behcfadg"
-    // assertEquals("behcfadg", enc, "encode failed");
+    // assertEquals("behcfadg", enc, "encrypt failed");
     //
-    // String dec = SingleColumnarTransformation.decode(enc, keys);
-    // assertEquals("abcdefgh", dec, "decode failed");
+    // String dec = SingleColumnarTransformation.decrypt(enc, keys);
+    // assertEquals("abcdefgh", dec, "decrypt failed");
     // }
     //
     // @Test
-    // void encodeDecodeBehavior2() {
+    // void encryptDecyphereBehavior2() {
     // int[] keys = new int[] { 2, 0, 1 };
-    // String enc = SingleColumnarTransformation.encode("abcdef", keys);
+    // String enc = SingleColumnarTransformation.encrypt("abcdef", keys);
     // // For keys [2,0,1] and text "abcdefg" => read b,e | c,f | a,d -> "becfad"
-    // assertEquals("becfad", enc, "encode failed");
+    // assertEquals("becfad", enc, "encrypt failed");
     //
-    // String dec = SingleColumnarTransformation.decode(enc, keys);
-    // assertEquals("abcdef", dec, "decode failed");
+    // String dec = SingleColumnarTransformation.decrypt(enc, keys);
+    // assertEquals("abcdef", dec, "decrypt failed");
     // }
     //
     // @Test
-    // void argumentValidationEncode() {
+    // void argumentValidationEncypher() {
     // int[] keys = new int[] { 2, 0, 1 };
-    // assertThrows(Exception.class, () -> SingleColumnarTransformation.encode(null,
+    // assertThrows(Exception.class, () -> SingleColumnarTransformation.encrypt(null,
     // keys),
-    // "encode null input should return null");
-    // assertThrows(Exception.class, () -> SingleColumnarTransformation.encode("",
+    // "encrypt null input should return null");
+    // assertThrows(Exception.class, () -> SingleColumnarTransformation.encrypt("",
     // keys),
-    // "encode empty input should return null");
+    // "encrypt empty input should return null");
     // assertThrows(Exception.class, () ->
-    // SingleColumnarTransformation.encode("abc"),
-    // "encode missing args should return null");
+    // SingleColumnarTransformation.encrypt("abc"),
+    // "encrypt missing args should return null");
     // assertThrows(Exception.class, () ->
-    // SingleColumnarTransformation.encode("abc", "bad-key-type"),
-    // "encode wrong arg type should return null");
+    // SingleColumnarTransformation.encrypt("abc", "bad-key-type"),
+    // "encrypt wrong arg type should return null");
     // }
     //
     // @Test
-    // void argumentValidationDecode() {
+    // void argumentValidationDecyphere() {
     // int[] keys = new int[] { 2, 0, 1 };
-    // assertThrows(Exception.class, () -> SingleColumnarTransformation.decode(null,
+    // assertThrows(Exception.class, () -> SingleColumnarTransformation.decrypt(null,
     // keys),
-    // "decode null input should return null");
-    // assertThrows(Exception.class, () -> SingleColumnarTransformation.decode("",
+    // "decrypt null input should return null");
+    // assertThrows(Exception.class, () -> SingleColumnarTransformation.decrypt("",
     // keys),
-    // "decode empty input should return null");
+    // "decrypt empty input should return null");
     // assertThrows(Exception.class, () ->
-    // SingleColumnarTransformation.decode("abc"),
-    // "decode missing args should return null");
+    // SingleColumnarTransformation.decrypt("abc"),
+    // "decrypt missing args should return null");
     // assertThrows(Exception.class, () ->
-    // SingleColumnarTransformation.decode("abc", "bad-key-type"),
-    // "decode wrong arg type should return null");
+    // SingleColumnarTransformation.decrypt("abc", "bad-key-type"),
+    // "decrypt wrong arg type should return null");
     // }
 }

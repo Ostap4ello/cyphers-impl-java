@@ -1,22 +1,22 @@
 package cyphers.substitutional;
 
-import cyphers.AbstractEncoderDecoder;
-import exceptions.EncoderDecoderConversionError;
+import cyphers.AbstractEncryptionAlgorithm;
+import exceptions.EncryptionAlgorithmConversionError;
 import interfaces.TelegraphAlphabet;
 import utils.Math;
 import utils.Utils;
 
-public class Monoalphabetic extends AbstractEncoderDecoder {
+public class Monoalphabetic extends AbstractEncryptionAlgorithm {
 
-    public static String encode(String plainText, Object... args) throws EncoderDecoderConversionError {
+    public static String encrypt(String plainText, Object... args) throws EncryptionAlgorithmConversionError {
         String key;
         if (args.length < 1 ||
                 !(args[0] instanceof String)) {
-            throw new EncoderDecoderConversionError("Arguments are of wrong type or insufficient");
+            throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or insufficient");
         }
         key = (String) args[0];
         if (key.length() != AlphabetLength) {
-            throw new EncoderDecoderConversionError("Invalid key");
+            throw new EncryptionAlgorithmConversionError("Invalid key");
         }
         //TODO: key verification
 
@@ -30,15 +30,15 @@ public class Monoalphabetic extends AbstractEncoderDecoder {
         return output.toString();
     }
 
-    public static String decode(String cypherText, Object... args) throws EncoderDecoderConversionError {
+    public static String decrypt(String cypherText, Object... args) throws EncryptionAlgorithmConversionError {
         String key;
         if (args.length < 1 ||
                 !(args[0] instanceof String)) {
-            throw new EncoderDecoderConversionError("Arguments are of wrong type or insufficient");
+            throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or insufficient");
         }
         key = (String) args[0];
         if (key.length() != AlphabetLength) {
-            throw new EncoderDecoderConversionError("Invalid key");
+            throw new EncryptionAlgorithmConversionError("Invalid key");
         }
         //TODO: key verification
 

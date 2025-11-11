@@ -3,22 +3,22 @@ package cyphers.substitutional;
 
 import java.util.Arrays;
 
-import cyphers.AbstractEncoderDecoder;
+import cyphers.AbstractEncryptionAlgorithm;
 import utils.Math;
 import utils.Utils;
-import exceptions.EncoderDecoderConversionError;
+import exceptions.EncryptionAlgorithmConversionError;
 
-public class VinegereAutoKeyPT extends AbstractEncoderDecoder {
+public class VinegereAutoKeyPT extends AbstractEncryptionAlgorithm {
 
-    public static String encode(String plainText, Object... args) throws EncoderDecoderConversionError {
+    public static String encrypt(String plainText, Object... args) throws EncryptionAlgorithmConversionError {
         int[] key;
         if (args.length < 1 ||
                 !(args[0] instanceof int[])) {
-            throw new EncoderDecoderConversionError("Arguments are of wrong type or insufficient");
+            throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or insufficient");
         }
         key = (int[]) args[0];
         if (Arrays.asList(key).size() <= 0) {
-            throw new EncoderDecoderConversionError("Invalid key");
+            throw new EncryptionAlgorithmConversionError("Invalid key");
         }
         // TODO: key verification
 
@@ -32,7 +32,7 @@ public class VinegereAutoKeyPT extends AbstractEncoderDecoder {
             } else {
                 originalSegment = plainText.substring(i, i + keyLength);
             }
-            modifiedSegment = Vinegere.encode(originalSegment, key);
+            modifiedSegment = Vinegere.encrypt(originalSegment, key);
             key = Utils.strToIntArrayTSA(originalSegment);
 
             outputBuilder.append(modifiedSegment);
@@ -40,15 +40,15 @@ public class VinegereAutoKeyPT extends AbstractEncoderDecoder {
         return outputBuilder.toString();
     }
 
-    public static String decode(String cypherText, Object... args) throws EncoderDecoderConversionError {
+    public static String decrypt(String cypherText, Object... args) throws EncryptionAlgorithmConversionError {
         int[] key;
         if (args.length < 1 ||
                 !(args[0] instanceof int[])) {
-            throw new EncoderDecoderConversionError("Arguments are of wrong type or insufficient");
+            throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or insufficient");
         }
         key = (int[]) args[0];
         if (Arrays.asList(key).size() <= 0) {
-            throw new EncoderDecoderConversionError("Invalid key");
+            throw new EncryptionAlgorithmConversionError("Invalid key");
         }
         //TODO: key verification
 
@@ -62,7 +62,7 @@ public class VinegereAutoKeyPT extends AbstractEncoderDecoder {
             } else {
                 originalSegment = cypherText.substring(i, i + keyLength);
             }
-            modifiedSegment = Vinegere.decode(originalSegment, key);
+            modifiedSegment = Vinegere.decrypt(originalSegment, key);
             key = Utils.strToIntArrayTSA(modifiedSegment);
 
             outputBuilder.append(modifiedSegment);

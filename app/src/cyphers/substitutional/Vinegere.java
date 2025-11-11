@@ -2,17 +2,17 @@ package cyphers.substitutional;
 
 import java.util.Arrays;
 
-import cyphers.AbstractEncoderDecoder;
+import cyphers.AbstractEncryptionAlgorithm;
 import utils.Utils;
-import exceptions.EncoderDecoderConversionError;
+import exceptions.EncryptionAlgorithmConversionError;
 
-public class Vinegere extends AbstractEncoderDecoder {
+public class Vinegere extends AbstractEncryptionAlgorithm {
 
     // INFO: returns string, where each letter is shifted by offset (to right),
     // which increases by step after each letter
-    private static String transform(String text, int[] key) throws EncoderDecoderConversionError {
+    private static String transform(String text, int[] key) throws EncryptionAlgorithmConversionError {
         if (text == null || text.matches(AlphabetRegex) == false) {
-            throw new EncoderDecoderConversionError("Text is null or contains invalid characters");
+            throw new EncryptionAlgorithmConversionError("Text is null or contains invalid characters");
         }
 
         StringBuilder modifiedTextBuilder = new StringBuilder("");
@@ -30,30 +30,30 @@ public class Vinegere extends AbstractEncoderDecoder {
         return modifiedTextBuilder.toString();
     }
 
-    public static String encode(String plainText, Object... args) throws EncoderDecoderConversionError {
+    public static String encrypt(String plainText, Object... args) throws EncryptionAlgorithmConversionError {
         int[] key;
         if (args.length < 1 ||
                 !(args[0] instanceof int[])) {
-            throw new EncoderDecoderConversionError("Arguments are of wrong type or insufficient");
+            throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or insufficient");
         }
         key = (int[]) args[0];
         if (Arrays.asList(key).size() <= 0) {
-            throw new EncoderDecoderConversionError("Invalid key");
+            throw new EncryptionAlgorithmConversionError("Invalid key");
         }
         // TODO: key verification
 
         return transform(plainText, key);
     }
 
-    public static String decode(String cypherText, Object... args) throws EncoderDecoderConversionError {
+    public static String decrypt(String cypherText, Object... args) throws EncryptionAlgorithmConversionError {
         int[] key;
         if (args.length < 1 ||
                 !(args[0] instanceof int[])) {
-            throw new EncoderDecoderConversionError("Arguments are of wrong type or insufficient");
+            throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or insufficient");
         }
         key = (int[]) args[0];
         if (Arrays.asList(key).size() <= 0) {
-            throw new EncoderDecoderConversionError("Invalid key");
+            throw new EncryptionAlgorithmConversionError("Invalid key");
         }
         //TODO: key verification
 

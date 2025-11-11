@@ -5,15 +5,15 @@ import exceptions.NotImplementedError;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class AbstractEncoderDecoderTest {
+public class AbstractEncryptionAlgorithmTest {
 
     @Test
     void abstractMethodsReturnNull() {
         assertThrows(NotImplementedError.class,
-                () -> AbstractEncoderDecoder.encode("abc"),
-                "Abstract encode should return null");
+                () -> AbstractEncryptionAlgorithm.encrypt("abc"),
+                "Abstract encrypt should return null");
         assertThrows(NotImplementedError.class,
-                () -> AbstractEncoderDecoder.decode("xyz"),
-                "Abstract decode should return null");
+                () -> AbstractEncryptionAlgorithm.decrypt("xyz"),
+                "Abstract decrypt should return null");
     }
 }

@@ -8,25 +8,25 @@ import java.util.concurrent.CyclicBarrier;
 
 import utils.Math;
 
-import exceptions.EncoderDecoderConversionError;
+import exceptions.EncryptionAlgorithmConversionError;
 
 // INFO: write to table by columns; length of each row of the table are defined by key;
 // then read in key order by rows
 public abstract class Roche {
-    public static String encode(String plainText, Object... args) throws EncoderDecoderConversionError {
+    public static String encrypt(String plainText, Object... args) throws EncryptionAlgorithmConversionError {
         int[] keys;
         if (plainText == null || plainText.length() == 0) {
-            throw new EncoderDecoderConversionError("Plain text is null or empty");
+            throw new EncryptionAlgorithmConversionError("Plain text is null or empty");
         }
         if (args.length < 1) {
-            throw new EncoderDecoderConversionError("Insufficient arguments");
+            throw new EncryptionAlgorithmConversionError("Insufficient arguments");
         }
         if (args[0] instanceof int[]) {
             keys = (int[]) args[0];
         } else if (args[0] instanceof String) {
             keys = Math.generatePermutationBellaso((String) args[0]);
         } else {
-            throw new EncoderDecoderConversionError("Argument is of wrong type");
+            throw new EncryptionAlgorithmConversionError("Argument is of wrong type");
         }
 
         // TODO: validate keys length (m+1)m/2 >= plainText.length()
@@ -62,20 +62,20 @@ public abstract class Roche {
         return output.toString();
     }
 
-    public static String decode(String cypherText, Object... args) throws EncoderDecoderConversionError {
+    public static String decrypt(String cypherText, Object... args) throws EncryptionAlgorithmConversionError {
         int[] keys;
         if (cypherText == null || cypherText.length() == 0) {
-            throw new EncoderDecoderConversionError("Cypher text is null or empty");
+            throw new EncryptionAlgorithmConversionError("Cypher text is null or empty");
         }
         if (args.length < 1) {
-            throw new EncoderDecoderConversionError("Insufficient arguments");
+            throw new EncryptionAlgorithmConversionError("Insufficient arguments");
         }
         if (args[0] instanceof int[]) {
             keys = (int[]) args[0];
         } else if (args[0] instanceof String) {
             keys = Math.generatePermutationBellaso((String) args[0]);
         } else {
-            throw new EncoderDecoderConversionError("Argument is of wrong type");
+            throw new EncryptionAlgorithmConversionError("Argument is of wrong type");
         }
 
         // TODO: validate keys length (m+1)m/2 >= plainText.length()

@@ -2,7 +2,7 @@ package cyphers.substitutional;
 
 import org.junit.jupiter.api.Test;
 
-import exceptions.EncoderDecoderConversionError;
+import exceptions.EncryptionAlgorithmConversionError;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,64 +13,64 @@ public class MonoalphabeticTest {
     private static final String INVALID_KEY = "abc";
 
     @Test
-    public void testEncode_ValidInput() throws EncoderDecoderConversionError {
+    public void testEncypher_ValidInput() throws EncryptionAlgorithmConversionError {
         String plainText = "hellobabydelta";
         String expectedCipherText = "lhbboeaeydhbta";
-        String actualCipherText = Monoalphabetic.encode(plainText, VALID_KEY);
+        String actualCipherText = Monoalphabetic.encrypt(plainText, VALID_KEY);
         assertEquals(expectedCipherText, actualCipherText);
     }
 
     @Test
-    public void testDecode_ValidInput() throws EncoderDecoderConversionError {
+    public void testDecyphere_ValidInput() throws EncryptionAlgorithmConversionError {
         String cipherText = "lhbboeaeydhbta"; // Must match the result of encoding 'HELLO'
         String expectedPlainText = "hellobabydelta";
-        String actualPlainText = Monoalphabetic.decode(cipherText, VALID_KEY);
+        String actualPlainText = Monoalphabetic.decrypt(cipherText, VALID_KEY);
         assertEquals(expectedPlainText, actualPlainText);
     }
 
     @Test
-    public void testEncode_InvalidKeyLength() {
-        Exception exception = assertThrows(EncoderDecoderConversionError.class, () -> {
-            Monoalphabetic.encode("hello", INVALID_KEY);
+    public void testEncypher_InvalidKeyLength() {
+        Exception exception = assertThrows(EncryptionAlgorithmConversionError.class, () -> {
+            Monoalphabetic.encrypt("hello", INVALID_KEY);
         });
         assertEquals("Invalid key", exception.getMessage());
     }
 
     @Test
-    public void testEncode_InvalidArgumentType() {
-        Exception exception = assertThrows(EncoderDecoderConversionError.class, () -> {
-            Monoalphabetic.encode("hello", 123);
+    public void testEncypher_InvalidArgumentType() {
+        Exception exception = assertThrows(EncryptionAlgorithmConversionError.class, () -> {
+            Monoalphabetic.encrypt("hello", 123);
         });
         assertEquals("Arguments are of wrong type or insufficient", exception.getMessage());
     }
 
     @Test
-    public void testDecode_InvalidKeyLength() {
-        Exception exception = assertThrows(EncoderDecoderConversionError.class, () -> {
-            Monoalphabetic.decode("ciphertext", INVALID_KEY);
+    public void testDecyphere_InvalidKeyLength() {
+        Exception exception = assertThrows(EncryptionAlgorithmConversionError.class, () -> {
+            Monoalphabetic.decrypt("ciphertext", INVALID_KEY);
         });
         assertEquals("Invalid key", exception.getMessage());
     }
 
     @Test
-    public void testDecode_InvalidArgumentType() {
-        Exception exception = assertThrows(EncoderDecoderConversionError.class, () -> {
-            Monoalphabetic.decode("ciphertext", 123);
+    public void testDecyphere_InvalidArgumentType() {
+        Exception exception = assertThrows(EncryptionAlgorithmConversionError.class, () -> {
+            Monoalphabetic.decrypt("ciphertext", 123);
         });
         assertEquals("Arguments are of wrong type or insufficient", exception.getMessage());
     }
 
     @Test
-    public void testEncode_EmptyPlainText() throws EncoderDecoderConversionError {
+    public void testEncypher_EmptyPlainText() throws EncryptionAlgorithmConversionError {
         String expectedCipherText = ""; // Assuming that encoding an empty string returns an empty string
-        String actualCipherText = Monoalphabetic.encode("", VALID_KEY);
+        String actualCipherText = Monoalphabetic.encrypt("", VALID_KEY);
         assertEquals(expectedCipherText, actualCipherText);
     }
 
     @Test
-    public void testDecode_EmptyCipherText() throws EncoderDecoderConversionError {
+    public void testDecyphere_EmptyCipherText() throws EncryptionAlgorithmConversionError {
         String expectedPlainText = ""; // Assuming that decoding an empty string returns an empty string
-        String actualPlainText = Monoalphabetic.decode("", VALID_KEY);
+        String actualPlainText = Monoalphabetic.decrypt("", VALID_KEY);
         assertEquals(expectedPlainText, actualPlainText);
     }
 }

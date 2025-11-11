@@ -15,14 +15,14 @@ public class VinegereAutoKeyPTTest {
     }
 
     @Test
-    void basicEncodeDecode() {
+    void basicEncypherDecyphere() {
         int[] key;
 
         key = generateKeyFromString("abc");
 
         // key: abcabcbbbx
-        assertEquals("acebcdyzax", VinegereAutoKeyPT.encode("abcbbbxyza", key), "encode basic failed");
-        assertEquals("abcbbbxyza", VinegereAutoKeyPT.decode("acebcdyzax", key), "decode basic failed");
+        assertEquals("acebcdyzax", VinegereAutoKeyPT.encrypt("abcbbbxyza", key), "encrypt basic failed");
+        assertEquals("abcbbbxyza", VinegereAutoKeyPT.decrypt("acebcdyzax", key), "decrypt basic failed");
 
     }
 
@@ -30,25 +30,25 @@ public class VinegereAutoKeyPTTest {
     void invalidInputs() {
         int[] validKey = new int[] {1, 2, 3};
         assertThrows(Exception.class,
-                () -> VinegereAutoKeyPT.encode(null, validKey),
-                "encode should throw exception on null input");
+                () -> VinegereAutoKeyPT.encrypt(null, validKey),
+                "encrypt should throw exception on null input");
         assertThrows(Exception.class,
-                () -> VinegereAutoKeyPT.decode(null, validKey),
-                "decode should throw exception on null input");
+                () -> VinegereAutoKeyPT.decrypt(null, validKey),
+                "decrypt should throw exception on null input");
 
         assertThrows(Exception.class,
-                () -> VinegereAutoKeyPT.encode("abc!", validKey),
-                "encode should throw exception on invalid characters");
+                () -> VinegereAutoKeyPT.encrypt("abc!", validKey),
+                "encrypt should throw exception on invalid characters");
         assertThrows(Exception.class,
-                () -> VinegereAutoKeyPT.decode("abc!", validKey),
-                "decode should throw exception on invalid characters");
+                () -> VinegereAutoKeyPT.decrypt("abc!", validKey),
+                "decrypt should throw exception on invalid characters");
 
-        assertThrows(Exception.class, () -> VinegereAutoKeyPT.encode("abc"), "encode should return null on insufficient args");
-        assertThrows(Exception.class, () -> VinegereAutoKeyPT.decode("abc"), "decode should return null on insufficient args");
+        assertThrows(Exception.class, () -> VinegereAutoKeyPT.encrypt("abc"), "encrypt should return null on insufficient args");
+        assertThrows(Exception.class, () -> VinegereAutoKeyPT.decrypt("abc"), "decrypt should return null on insufficient args");
 
-        assertThrows(Exception.class, () -> VinegereAutoKeyPT.encode("abc", "offset"),
-                "encode should return null on wrong arg types");
-        assertThrows(Exception.class, () -> VinegereAutoKeyPT.decode("abc", "step"),
-                "decode should return null on wrong arg types");
+        assertThrows(Exception.class, () -> VinegereAutoKeyPT.encrypt("abc", "offset"),
+                "encrypt should return null on wrong arg types");
+        assertThrows(Exception.class, () -> VinegereAutoKeyPT.decrypt("abc", "step"),
+                "decrypt should return null on wrong arg types");
     }
 }

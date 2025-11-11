@@ -1,17 +1,17 @@
 package cyphers.substitutional;
 
-import cyphers.AbstractEncoderDecoder;
+import cyphers.AbstractEncryptionAlgorithm;
 import utils.Utils;
-import exceptions.EncoderDecoderConversionError;
+import exceptions.EncryptionAlgorithmConversionError;
 
 // INFO: encoding by substituting a corresponding letter from the reversed alphabet
-public class Atbash extends AbstractEncoderDecoder {
+public class Atbash extends AbstractEncryptionAlgorithm {
 
     // INFO: returns string, where each letter is shifted by offset (to right),
     // which increases by step after each letter
-    private static String transform(String text) throws EncoderDecoderConversionError {
+    private static String transform(String text) throws EncryptionAlgorithmConversionError {
         if (text == null || text.matches(AlphabetRegex) == false) {
-            throw new EncoderDecoderConversionError("Text is null or contains invalid characters");
+            throw new EncryptionAlgorithmConversionError("Text is null or contains invalid characters");
         }
 
         StringBuilder modifiedTextBuilder = new StringBuilder("");
@@ -25,17 +25,17 @@ public class Atbash extends AbstractEncoderDecoder {
         return modifiedTextBuilder.toString();
     }
 
-    public static String decode(String cypherText, Object... args) throws EncoderDecoderConversionError {
+    public static String decrypt(String cypherText, Object... args) throws EncryptionAlgorithmConversionError {
         if (args.length != 0) {
-            throw new EncoderDecoderConversionError("Function must take zero arguments");
+            throw new EncryptionAlgorithmConversionError("Function must take zero arguments");
         }
 
         return transform(cypherText);
     }
 
-    public static String encode(String plainText, Object... args) throws EncoderDecoderConversionError {
+    public static String encrypt(String plainText, Object... args) throws EncryptionAlgorithmConversionError {
         if (args.length != 0) {
-            throw new EncoderDecoderConversionError("Function must take zero arguments");
+            throw new EncryptionAlgorithmConversionError("Function must take zero arguments");
         }
 
         return transform(plainText);

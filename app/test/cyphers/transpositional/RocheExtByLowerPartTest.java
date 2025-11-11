@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RocheExtByLowerPartTest {
 
     @Test
-    void encodeDecodeBehavior0() {
+    void encryptDecyphereBehavior0() {
         /*
          * 2 0 1
          *
@@ -16,14 +16,14 @@ public class RocheExtByLowerPartTest {
          * g H I
          */
         int[] keys = new int[] { 2, 0, 1 };
-        String enc = RocheExtByLowerPart.encode("abcdefghi", keys);
-        assertEquals("bcfadgehi", enc, "encode failed");
+        String enc = RocheExtByLowerPart.encrypt("abcdefghi", keys);
+        assertEquals("bcfadgehi", enc, "encrypt failed");
 
-        String dec = RocheExtByLowerPart.decode(enc, keys);
-        assertEquals("abcdefghi", dec, "decode failed");
+        String dec = RocheExtByLowerPart.decrypt(enc, keys);
+        assertEquals("abcdefghi", dec, "decrypt failed");
     }
 
-    void encodeDecodeBehavior1() {
+    void encryptDecyphereBehavior1() {
         /*
          * 2 1 0 3
          *
@@ -33,14 +33,14 @@ public class RocheExtByLowerPartTest {
          * M N O P
          */
         int[] keys = new int[] { 2, 1, 0, 3 };
-        String enc = RocheExtByLowerPart.encode("abcdefghijklmnop", keys);
-        assertEquals("cbfaeidhlgkojnmp", enc, "encode failed");
+        String enc = RocheExtByLowerPart.encrypt("abcdefghijklmnop", keys);
+        assertEquals("cbfaeidhlgkojnmp", enc, "encrypt failed");
 
-        String dec = RocheExtByLowerPart.decode(enc, keys);
-        assertEquals("abcdefghijklmnop", dec, "decode failed");
+        String dec = RocheExtByLowerPart.decrypt(enc, keys);
+        assertEquals("abcdefghijklmnop", dec, "decrypt failed");
     }
 
-    void encodeDecodeBehavior2() {
+    void encryptDecyphereBehavior2() {
         /*
          * 2 1 0 3
          *
@@ -50,14 +50,14 @@ public class RocheExtByLowerPartTest {
          * M N
          */
         int[] keys = new int[] { 2, 1, 0, 3 };
-        String enc = RocheExtByLowerPart.encode("abcdefghijklmn", keys);
-        assertEquals("cbfaeidhlGKJNM", enc, "encode failed");
+        String enc = RocheExtByLowerPart.encrypt("abcdefghijklmn", keys);
+        assertEquals("cbfaeidhlGKJNM", enc, "encrypt failed");
 
-        String dec = RocheExtByLowerPart.decode(enc, keys);
-        assertEquals("abcdefghijklmn", dec, "decode failed");
+        String dec = RocheExtByLowerPart.decrypt(enc, keys);
+        assertEquals("abcdefghijklmn", dec, "decrypt failed");
     }
 
-    void encodeDecodeBehavior3() {
+    void encryptDecyphereBehavior3() {
         /*
          * 2 1 0 3
          *
@@ -67,11 +67,11 @@ public class RocheExtByLowerPartTest {
          *
          */
         int[] keys = new int[] { 2, 1, 0, 3 };
-        String enc = RocheExtByLowerPart.encode("abcdefg", keys);
-        assertEquals("cbfaedg", enc, "encode failed");
+        String enc = RocheExtByLowerPart.encrypt("abcdefg", keys);
+        assertEquals("cbfaedg", enc, "encrypt failed");
 
-        String dec = RocheExtByLowerPart.decode(enc, keys);
-        assertEquals("abcdefg", dec, "decode failed");
+        String dec = RocheExtByLowerPart.decrypt(enc, keys);
+        assertEquals("abcdefg", dec, "decrypt failed");
 
     }
 }
