@@ -16,11 +16,12 @@ public class Vinegere extends AbstractEncryptionAlgorithm {
         }
 
         StringBuilder modifiedTextBuilder = new StringBuilder("");
+        int keyLength = key.length;
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
 
             int letterAsInteger = Utils.ctoiTSA(c);
-            letterAsInteger = (letterAsInteger + key[i % key.length]) % AlphabetLength;
+            letterAsInteger = (letterAsInteger + key[i % keyLength]) % AlphabetLength;
             if (letterAsInteger < 0) {
                 letterAsInteger += AlphabetLength;
             }
@@ -37,7 +38,8 @@ public class Vinegere extends AbstractEncryptionAlgorithm {
             throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or insufficient");
         }
         key = (int[]) args[0];
-        if (Arrays.asList(key).size() <= 0) {
+        int keyLength = key.length;
+        if (keyLength <= 0) {
             throw new EncryptionAlgorithmConversionError("Invalid key");
         }
         // TODO: key verification
@@ -52,13 +54,14 @@ public class Vinegere extends AbstractEncryptionAlgorithm {
             throw new EncryptionAlgorithmConversionError("Arguments are of wrong type or insufficient");
         }
         key = (int[]) args[0];
-        if (Arrays.asList(key).size() <= 0) {
+        int keyLength = key.length;
+        if (keyLength <= 0) {
             throw new EncryptionAlgorithmConversionError("Invalid key");
         }
         //TODO: key verification
 
         // Invert key for decoding
-        for (int i = 0; i < key.length; i++) {
+        for (int i = 0; i < keyLength ; i++) {
             key[i] = -key[i];
         }
 

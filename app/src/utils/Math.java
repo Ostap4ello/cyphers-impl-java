@@ -109,10 +109,13 @@ public class Math implements TelegraphAlphabet {
         for (int i = 0; i < length; i++) {
             keyLetterSet.add(stringKey.charAt(i));
         }
+        List<Character> keyLetterList = new ArrayList<>(keyLetterSet);
+        keyLetterList.sort(Character::compareTo);
+
         int[] keyIntArray = new int[length];
 
         int number = 0;
-        for (Character c : keyLetterSet) {
+        for (Character c : keyLetterList) {
             int index = 0;
             do {
                 index = stringKey.indexOf(c, index);

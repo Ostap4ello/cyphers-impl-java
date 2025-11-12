@@ -61,9 +61,9 @@ public class MathTest {
     @Test
     void bellasoPermutation() {
         Map<String, String> testCases = new HashMap<>();
-        testCases.put("abc", "012");
-        testCases.put("cba", "210");
-        testCases.put("aaccbb", "014523");
+        testCases.put("akbc", "0312");
+        testCases.put("cbla", "2130");
+        testCases.put("zaaccbb", "6014523");
 
         for (Map.Entry<String, String> entry : testCases.entrySet()) {
             String key = entry.getKey();
