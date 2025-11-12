@@ -3,6 +3,8 @@ package cyphers.transpositional;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import java.util.List;
+
 import exceptions.EncryptionAlgorithmConversionError;
 import utils.Math;
 
@@ -25,43 +27,35 @@ public class SingleColumnarTransformation {
             throw new EncryptionAlgorithmConversionError("Argument is of wrong type");
         }
 
-        keys = Math.generateInversePermutation(keys); // get order of reading columns
-        int keyLength = Array.getLength(keys);
-        int plainTextLength = plainText.length();
-        StringBuilder modifiedTextBuilder = new StringBuilder("");
+        int columns = Array.getLength(keys);
+        int rows = (plainText.length()-1) / columns + 1;
 
-        for (int letterIndex : keys) {
-            for (int baseIndex = 0; baseIndex < plainTextLength; baseIndex += keyLength) {
-                int index = baseIndex + letterIndex;
-                if (index < plainTextLength) {
-                    modifiedTextBuilder.append(plainText.charAt(index));
+        char[][] table = new char[rows][columns];
+
+        int index = 0;
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                if (index < plainText.length()) {
+                    table[r][c] = plainText.charAt(index++);
+                } else {
+                    table[r][c] = '.'; // filler character
                 }
             }
         }
-        return modifiedTextBuilder.toString();
-    }
 
-    private static String cypherTextAddMissingLetters(String cypherText, int[] keys) {
-        int keyLength = Array.getLength(keys);
-        int cypherTextLength = cypherText.length();
-
-        // Fill text so it is rectangular
-        // Note: cypherTextLength > 0, see checks. TODO: move check here
-        int fullRowCount = cypherTextLength / keyLength;
-        int columnLength = fullRowCount + 1;
-        int fillerLength = keyLength - (cypherTextLength % keyLength);
-
-        ArrayList<Integer> nonfullColumnIndexes = new ArrayList<>();
-        for (int i = 0; i < fillerLength; i++) {
-            nonfullColumnIndexes.add(keys[keyLength - 1 - i]);
+        List<Integer> keyList = new ArrayList<>();
+        for (int k : keys) {
+            keyList.add(k);
         }
-        nonfullColumnIndexes.sort(Integer::compareTo);
 
-        StringBuilder modifiedTextBuilder = new StringBuilder(cypherText);
+        StringBuilder modifiedTextBuilder = new StringBuilder("");
+        for (int cIndex = 0; cIndex < columns; cIndex++) {
+            int col = keyList.indexOf(cIndex);
+            for (int r = 0; r < rows; r++) {
+                if (table[r][col] != '.') // skip filler characters TODO: refactor
+                    modifiedTextBuilder.append(table[r][col]);
+            }
 
-        for (int i = 0; i < fillerLength; i++) {
-            int index = (nonfullColumnIndexes.get(i) * columnLength) + fullRowCount;
-            modifiedTextBuilder.insert(index, '.');
         }
 
         return modifiedTextBuilder.toString();
@@ -83,19 +77,38 @@ public class SingleColumnarTransformation {
             throw new EncryptionAlgorithmConversionError("Argument is of wrong type");
         }
 
-        cypherText = cypherTextAddMissingLetters(cypherText, keys);
+        int columns = Array.getLength(keys);
+        int rows = (cypherText.length()-1) / columns + 1;
 
-        int keyLength = Array.getLength(keys);
-        int columnCount = cypherText.length() / keyLength;
+        int emptyCellsAfter = columns - ((rows * columns) - cypherText.length());
 
-        StringBuilder decryptdTextBuilder = new StringBuilder("");
-        for (int letterIndex = 0; letterIndex < columnCount; letterIndex++) {
-            for (int baseIndex : keys) {
-                int index = letterIndex + keyLength * baseIndex;
-                if (cypherText.charAt(index) != '.') // skip filler characters TODO: refactor
-                    decryptdTextBuilder.append(cypherText.charAt(index));
+        char[][] table = new char[rows][columns];
+        List<Integer> keyList = new ArrayList<>();
+        for (int k : keys) {
+            keyList.add(k);
+        }
+
+        int index = 0;
+        for (int cIndex = 0; cIndex < columns; cIndex++) {
+            int col = keyList.indexOf(cIndex);
+            for (int row = 0; row < rows; row++) {
+                // Skip empty cells
+                if (row == rows - 1 && col >= emptyCellsAfter) {
+                    table[row][col] = '.';
+                } else {
+                    table[row][col] = cypherText.charAt(index++);
+                }
             }
         }
+
+        StringBuilder decryptdTextBuilder = new StringBuilder("");
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                if (table[r][c] != '.') // skip filler characters TODO: refactor
+                    decryptdTextBuilder.append(table[r][c]);
+            }
+        }
+
         return decryptdTextBuilder.toString();
     }
 }
